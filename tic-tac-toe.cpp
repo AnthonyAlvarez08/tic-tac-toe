@@ -2,9 +2,6 @@
 #include <stdio.h>
 using namespace std;
 
-/*
-TODO: win conditions and game ending
-*/
 
 // the game board
 char board[3][3] = {
@@ -45,8 +42,9 @@ int main()
 
         if (game_ended())
         {
-            cout << "the game ended!\n Here is the final board:\n";
+            cout << "the game ended!\nHere is the final board:\n";
             print_board();
+            break;
         }
     }
 
@@ -86,5 +84,51 @@ void print_board()
 
 bool game_ended()
 {
+    // handle a horizontal or a vertical 3 in a row
+    for (int i = 0; i < 3; ++i)
+    {
+        
+        if (board[0][i] != ' ' && board[0][i] == board[1][i] && board[1][i] == board[2][i])
+        {
+            cout << board[0][i] << " wins vertically!" << endl;
+            return true;
+        }
+        if (board[i][0] != ' ' && board[i][0] == board[i][1] && board[i][1] == board[i][2])
+        {
+            cout << board[0][i] << " wins horizontally!" << endl;
+            return true;
+        }
+    }
+    // handle diagonal wins
+    bool diag1 = false, diag2 = false;
+    if (board[0][0] == board[1][1] && board[1][1] == board[2][2])
+        diag1 = true;
+    if (board[2][0] == board[1][1] && board[1][1] == board[0][2])
+        diag2 = true;
+    if (board[1][1] == ' ')
+    {
+        diag1 = false;
+        diag2 = false;
+    }
+    if (diag1 || diag2)
+    {
+        cout << board[1][1] << " wins diagonally!" << endl;
+        return true;
+    }
+
+
+    // handle ties
+    bool tie = true;
+    for (int i = 0; i < 3; ++i)
+        for (int b = 0; b < 3; ++b)
+            if (board[i][b] == ' ')
+                tie = false;
+    if (tie)
+    {
+        cout << "it is a tie!" << endl;
+        return true;
+    }
     return false;
+    
+    
 }
