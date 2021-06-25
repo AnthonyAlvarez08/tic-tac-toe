@@ -6,12 +6,21 @@ const char X = 'X';
 const char O = 'O';
 
 // the game board
-char board[3][3];
+char board[3][3] = {
+    {' ', ' ', ' '},
+    {' ', ' ', ' '},
+    {' ', ' ', ' '}
+};
 
 
 const string turns = "XOXOXOXOX"; // save the turns as a string so easy transition
 const string wall = "-----------\n";
 
+// function to print the board;
+void print_board();
+
+// function to make a play
+void make_play(char, int);
 
 int main() 
 {
@@ -23,8 +32,40 @@ int main()
     for (char i : turns)
     {
         char player = i;
-        cout << "it is player " << player << "'s turn!" << endl << "choose a space from 1 to 9" << endl;
+        cout << "here is the current board:\n";
+        print_board();
+        cout << "it is player " << player << "'s turn!" << endl << "choose a space from 1 to 9:  ";
+        int space;
+        cin >> space;
+        make_play(player, space);
     }
 
     return 0;
+}
+
+void make_play(char player, int space)
+{
+    space -= 1;
+    int col = space % 3;
+    int row = space / 3; // int division on purpose;
+
+    // recursively make plays if invalid play
+    if (board[row][col] != ' ')
+    {
+        cout << "that is an invalid play, ";
+        cout << "choose a space from 1 to 9:  ";
+        int newspace;
+        cin >> newspace;
+        make_play(player, newspace);
+    }
+    else
+    {
+        board[row][col] = player;
+    }
+
+}
+
+void print_board()
+{
+
 }
